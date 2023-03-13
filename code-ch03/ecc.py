@@ -157,7 +157,7 @@ class Point:
         if self.x is None:
             return 'Point(infinity)'
         elif isinstance(self.x, FieldElement):
-            return 'Point({},{})_{}_{} FieldElement({})'.format(
+            return 'Point({},{})_a:{}_b:{} FieldElement({})'.format(
                 self.x.num, self.y.num, self.a.num, self.b.num, self.x.prime)
         else:
             return 'Point({},{})_{}_{}'.format(self.x, self.y, self.a, self.b)
@@ -293,7 +293,19 @@ class ECCTest(TestCase):
         # initialize x's and y's as FieldElements
         # create p1, p2 and p3 as Points
         # check p1+p2==p3
-        raise NotImplementedError
+        for addition in additions:
+            x1 = FieldElement(addition[0], prime)
+            x2= FieldElement(addition[2], prime)
+            x3 = FieldElement(addition[4], prime)
+            y1 = FieldElement(addition[1], prime)
+            y2 = FieldElement(addition[3], prime)
+            y3 = FieldElement(addition[5], prime)
+            
+            P1 = Point(x1, y1, a, b)
+            P2 = Point(x2, y2, a, b)
+            P3 = Point(x3, y3, a, b)
+            
+            self.assertEqual(P1 + P2, P3)
 
     def test_rmul(self):
         # tests the following scalar multiplications
